@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { createTheme, MantineProvider, MantineColorsTuple } from '@mantine/core';
+import { AppShell } from './AppShell';
+import '@mantine/core/styles.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React 111
-        </a>
-      </header>
-    </div>
-  );
-}
+//https://mantine.dev/colors-generator/?color=2BDD66
+const greenColors: MantineColorsTuple = [
+    '#e5feee',
+    '#d2f9e0',
+    '#a8f1c0',
+    '#7aea9f',
+    '#53e383',
+    '#3bdf70',
+    '#2bdd66',
+    '#1ac455',
+    '#0caf49',
+    '#00963c',
+];
+
+const theme = createTheme({
+    fontFamily: 'Open Sans, sans-serif',
+    primaryColor: 'cyan',
+    colors: {
+        greenColors,
+    },
+});
+
+const App = () => (
+    <MantineProvider theme={theme}>
+        <AppShell />
+    </MantineProvider>
+);
 
 export default App;
