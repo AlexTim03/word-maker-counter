@@ -1,32 +1,22 @@
 import React from 'react';
-import { createTheme, MantineProvider, MantineColorsTuple } from '@mantine/core';
+import { createTheme, MantineProvider, CSSVariablesResolver } from '@mantine/core';
 import { AppShell } from './AppShell';
 import '@mantine/core/styles.css';
-
-//https://mantine.dev/colors-generator/?color=2BDD66
-const greenColors: MantineColorsTuple = [
-    '#e5feee',
-    '#d2f9e0',
-    '#a8f1c0',
-    '#7aea9f',
-    '#53e383',
-    '#3bdf70',
-    '#2bdd66',
-    '#1ac455',
-    '#0caf49',
-    '#00963c',
-];
 
 const theme = createTheme({
     fontFamily: 'Open Sans, sans-serif',
     primaryColor: 'cyan',
-    colors: {
-        greenColors,
-    },
 });
 
+const resolver: CSSVariablesResolver = () => ({
+    variables: {},
+    light: {
+        '--mantine-color-body': '#e6fcf5',
+    },
+    dark: {},
+});
 const App = () => (
-    <MantineProvider theme={theme}>
+    <MantineProvider theme={theme} cssVariablesResolver={resolver} defaultColorScheme="auto">
         <AppShell />
     </MantineProvider>
 );
