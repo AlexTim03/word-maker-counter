@@ -1,8 +1,8 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { MainMenu } from '../pages/MainMenu';
-import { Error404 } from '../pages/Error404';
-import { NewGame } from '../pages/NewGame';
+import { MainMenu } from 'pages/MainMenu';
+import { Error404 } from 'pages/Error404';
+import { NewGame } from 'pages/NewGame';
 
 const router = createBrowserRouter([
     {

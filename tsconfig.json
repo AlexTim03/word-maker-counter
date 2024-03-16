@@ -18,7 +18,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "baseUrl": "./src",
+    "paths": {
+      "pages/*": ["pages/*"],
+      "routing/*": ["routing/*"]
+    }
   },
   "include": [
     "src"
