@@ -1,16 +1,34 @@
 import React, { useState, KeyboardEvent } from 'react';
-import { TextInput } from '@mantine/core';
-//+Lisi
+import { useNavigate } from 'react-router-dom';
+import { TextInput, List, Button, Space } from '@mantine/core';
+import { useActiveGameContext } from 'contexts/ActiveGameContext';
 
 export const NewGame = () => {
     const [value, setValue] = useState('');
     const [list, setList] = useState<string[]>([]);
+    const navigate = useNavigate();
+    const { startGame } = useActiveGameContext();
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && value) {
-            setList([...list, value]);
+            const trimValue = value.trim();
+            if (list.find((el) => el === trimValue)) {
+                alert('Неуникальное имя!');
+                return;
+            }
+            setList([...list, trimValue]);
             setValue('');
         }
+    };
+
+    const handleStart = () => {
+        if (list.length < 2) {
+            //TODO сделать фокус
+            alert('Не хватает игроков!');
+            return;
+        }
+        startGame(list);
+        navigate('/game');
     };
 
     return (
@@ -18,14 +36,19 @@ export const NewGame = () => {
             <TextInput
                 label="Имя игрока"
                 value={value}
-                onChange={(event) => setValue(event.currentTarget.value)}
+                onChange={(e) => setValue(e.currentTarget.value)}
                 onKeyDown={handleKeyDown}
             />
-            <ul>
+            <Space h="md" />
+            <List size="lg">
                 {list.map((el) => (
-                    <li key={el}>{el}</li>
+                    <List.Item key={el}>{el}</List.Item>
                 ))}
-            </ul>
+            </List>
+            <Space h="md" />
+            <Button variant="filled" color="teal" fullWidth h="40" onClick={handleStart}>
+                Начать игру
+            </Button>
         </>
     );
 };

@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { MainMenu } from 'pages/MainMenu';
 import { Error404 } from 'pages/Error404';
 import { NewGame } from 'pages/NewGame';
+import { ActiveGame } from 'pages/ActiveGame';
 
 const router = createBrowserRouter([
     {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
     {
         path: '/new',
         element: <NewGame />,
+    },
+    {
+        path: '/game',
+        element: <ActiveGame />,
     },
 ]);
 

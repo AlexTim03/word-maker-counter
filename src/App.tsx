@@ -1,6 +1,8 @@
 import React from 'react';
 import { createTheme, MantineProvider, CSSVariablesResolver } from '@mantine/core';
+import { ActiveGameContextProvider } from 'contexts/ActiveGameContext';
 import { AppShell } from './AppShell';
+
 import '@mantine/core/styles.css';
 
 const theme = createTheme({
@@ -17,7 +19,9 @@ const resolver: CSSVariablesResolver = () => ({
 });
 const App = () => (
     <MantineProvider theme={theme} cssVariablesResolver={resolver} defaultColorScheme="auto">
-        <AppShell />
+        <ActiveGameContextProvider>
+            <AppShell />
+        </ActiveGameContextProvider>
     </MantineProvider>
 );
 
