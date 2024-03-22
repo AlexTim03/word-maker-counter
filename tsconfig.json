@@ -21,6 +21,7 @@
     "jsx": "preserve",
     "baseUrl": "./src",
     "paths": {
+      "components/*": ["components/*"],
       "contexts/*": ["contexts/*"],
       "pages/*": ["pages/*"],
       "routing/*": ["routing/*"]

@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppShell as BaseAppShell, Burger, Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { Logo } from 'components/Logo';
 import { Routing } from 'routing';
 
 export const AppShell = () => {
@@ -19,7 +20,9 @@ export const AppShell = () => {
             <BaseAppShell.Header>
                 <Group justify="space-between">
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="lg" />
-                    <div>Logo</div>
+                    <div>
+                        <Logo />
+                    </div>
                 </Group>
             </BaseAppShell.Header>
             <BaseAppShell.Navbar p="md">Navbar</BaseAppShell.Navbar>

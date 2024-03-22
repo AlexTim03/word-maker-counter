@@ -1,0 +1,9 @@
+.container {
+    padding: 4px;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+        border: 1px var(--mantine-primary-color-filled-hover) solid;
+    }
+}
