@@ -3,25 +3,35 @@ import { Button, NumberInput, ActionIcon, Group } from '@mantine/core';
 import { IconArrowBigRightLine } from '@tabler/icons-react';
 import { useActiveGameContext } from 'contexts/ActiveGameContext';
 import { Point } from 'components/Point';
-import styles from './ActiveGame.module.css';
+//import styles from './ActiveGame.module.css';
 
 export const ActiveGame = () => {
+    const { activePair, roundsCount, nextMove } = useActiveGameContext();
     const [value, setValue] = useState<number | string>(0);
     const [points, setPoints] = useState<number[]>([]);
-    const { activePair } = useActiveGameContext();
     const [currentPlayer, nextPlayer] = activePair;
 
     const addPoints = () => {
-        if (!value) {
-            return;
+        if (value && typeof value === 'number') {
+            setPoints([...points, value]);
+            setValue(0);
         }
-        setPoints([...points, value as number]);
-        setValue(0);
     };
+
+    const handleNext = () => {
+        setValue(0);
+        setPoints([]);
+        nextMove(total);
+    };
+
+    const total = points.reduce<number>((acc, point) => acc + point, 0);
 
     return (
         <div>
-            <div>Текущий игрок: {currentPlayer}</div>
+            <Group justify="space-between">
+                <div>Текущий игрок: {currentPlayer}</div>
+                <div>Раунд #{roundsCount}</div>
+            </Group>
             <Group gap="2px" mt={10}>
                 <NumberInput
                     value={value}
@@ -47,8 +57,8 @@ export const ActiveGame = () => {
                     )
                 )}
             </Group>
-
-            <Button variant="filled" color="teal" fullWidth h="40" mt={10}>
+            <div>Итого за раунд: {total}</div>
+            <Button variant="filled" color="teal" fullWidth h="40" mt={40} onClick={handleNext}>
                 Следующий игрок ({nextPlayer})
             </Button>
         </div>
