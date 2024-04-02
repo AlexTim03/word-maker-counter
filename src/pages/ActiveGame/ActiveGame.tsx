@@ -7,9 +7,9 @@ import { Point } from 'components/Point';
 
 export const ActiveGame = () => {
     const { activePair, roundsCount, nextMove } = useActiveGameContext();
+    const [currentPlayer, nextPlayer] = activePair;
     const [value, setValue] = useState<number | string>(0);
     const [points, setPoints] = useState<number[]>([]);
-    const [currentPlayer, nextPlayer] = activePair;
 
     const addPoints = () => {
         if (value && typeof value === 'number') {

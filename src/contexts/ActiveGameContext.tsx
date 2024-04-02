@@ -3,10 +3,12 @@ import { Player, Pair } from './types';
 import { getNextPair } from './helpers/getNextPair';
 
 interface ActiveGameContextValue {
-    startGame: (list: string[]) => void;
-    nextMove: (roundPoints: number) => void;
+    players: Player[];
+    firstPlayer: string;
     activePair: Pair;
     roundsCount: number;
+    startGame: (list: string[]) => void;
+    nextMove: (roundPoints: number) => void;
 }
 
 const ActiveGameContext = createContext<ActiveGameContextValue>({} as ActiveGameContextValue);
@@ -47,7 +49,7 @@ export const ActiveGameContextProvider = ({ children }: { children: ReactNode })
     };
 
     return (
-        <ActiveGameContext.Provider value={{ startGame, nextMove, activePair, roundsCount }}>
+        <ActiveGameContext.Provider value={{ players, firstPlayer, activePair, roundsCount, startGame, nextMove }}>
             {children}
         </ActiveGameContext.Provider>
     );
