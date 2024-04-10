@@ -1,15 +1,14 @@
 import React from 'react';
 import { Title, Table, TableData } from '@mantine/core';
 import { useActiveGameContext } from 'contexts/ActiveGameContext';
+import { getPointsMatrix } from './helpers/getPointsMatrix';
 
 export const Result = () => {
-    const { players, firstPlayer, roundsCount } = useActiveGameContext();
-    const position = players.findIndex(({ name }) => name === firstPlayer);
-    const normalizePlayers = position > 0 ? [...players.slice(position), ...players.slice(0, position)] : players;
+    const { players, roundsCount } = useActiveGameContext();
 
     const tableData: TableData = {
-        head: ['Раунд \\ Игрок', ...normalizePlayers.map(({ name }) => name)],
-        body: [[1], [2], [3]],
+        head: ['Раунд \\ Игрок', ...players.map(({ name }) => name)],
+        body: getPointsMatrix(players, roundsCount),
     };
 
     return (

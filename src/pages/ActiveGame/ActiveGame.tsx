@@ -1,30 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button, NumberInput, ActionIcon, Group } from '@mantine/core';
 import { IconArrowBigRightLine } from '@tabler/icons-react';
 import { useActiveGameContext } from 'contexts/ActiveGameContext';
 import { Point } from 'components/Point';
-//import styles from './ActiveGame.module.css';
+import { getTotal } from './helpers/getTotal';
 
 export const ActiveGame = () => {
     const { activePair, roundsCount, nextMove } = useActiveGameContext();
     const [currentPlayer, nextPlayer] = activePair;
-    const [value, setValue] = useState<number | string>(0);
+    const [value, setValue] = useState<number | string>('');
     const [points, setPoints] = useState<number[]>([]);
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
 
     const addPoints = () => {
         if (value && typeof value === 'number') {
             setPoints([...points, value]);
-            setValue(0);
+            setValue('');
+            inputRef.current?.focus();
         }
     };
 
     const handleNext = () => {
-        setValue(0);
+        nextMove(getTotal(points));
         setPoints([]);
-        nextMove(total);
+        setValue('');
+        inputRef.current?.focus();
     };
-
-    const total = points.reduce<number>((acc, point) => acc + point, 0);
 
     return (
         <div>
@@ -34,14 +41,16 @@ export const ActiveGame = () => {
             </Group>
             <Group gap="2px" mt={10}>
                 <NumberInput
+                    ref={inputRef}
                     value={value}
                     onChange={setValue}
                     placeholder="Введите количество очков"
+                    w="80%"
                     allowDecimal={false}
                     allowNegative={false}
                     hideControls
                 />
-                <ActionIcon variant="filled" color="teal" aria-label="Settings" size="input-sm" onClick={addPoints}>
+                <ActionIcon variant="filled" color="teal" size="input-sm" onClick={addPoints}>
                     <IconArrowBigRightLine stroke={1.5} size={36} />
                 </ActionIcon>
             </Group>
@@ -57,8 +66,8 @@ export const ActiveGame = () => {
                     )
                 )}
             </Group>
-            <div>Итого за раунд: {total}</div>
-            <Button variant="filled" color="teal" fullWidth h="40" mt={40} onClick={handleNext}>
+            <div>Итого за раунд: {getTotal(points)}</div>
+            <Button variant="filled" color="teal" fullWidth h="40" mt={120} onClick={handleNext}>
                 Следующий игрок ({nextPlayer})
             </Button>
         </div>

@@ -1,52 +1,43 @@
-import React, { useState, KeyboardEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { TextInput, List, Button, Space } from '@mantine/core';
-import { useActiveGameContext } from 'contexts/ActiveGameContext';
+import React from 'react';
+import { TextInput, List, Button, Group, ActionIcon } from '@mantine/core';
+import { IconArrowBigRightLine } from '@tabler/icons-react';
+import { useNewGame } from './hooks/useNewGame';
+import styles from './NewGame.module.css';
 
 export const NewGame = () => {
-    const [value, setValue] = useState('');
-    const [list, setList] = useState<string[]>([]);
-    const navigate = useNavigate();
-    const { startGame } = useActiveGameContext();
-
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && value) {
-            const trimValue = value.trim();
-            if (list.find((el) => el === trimValue)) {
-                alert('Неуникальное имя!');
-                return;
-            }
-            setList([...list, trimValue]);
-            setValue('');
-        }
-    };
-
-    const handleStart = () => {
-        if (list.length < 2) {
-            //TODO сделать фокус
-            alert('Не хватает игроков!');
-            return;
-        }
-        startGame(list);
-        navigate('/game');
-    };
+    const { value, list, handleChangeValue, handleAdd, handleKeyDown, handleStart, isStartDisabled, inputRef } =
+        useNewGame();
 
     return (
         <>
-            <TextInput
-                label="Имя игрока"
-                value={value}
-                onChange={(e) => setValue(e.currentTarget.value)}
-                onKeyDown={handleKeyDown}
-            />
-            <Space h="md" />
-            <List size="lg">
+            <Group gap="2px" align="flex-end">
+                <TextInput
+                    ref={inputRef}
+                    label="Имя игрока"
+                    value={value}
+                    w="80%"
+                    onChange={handleChangeValue}
+                    onKeyDown={handleKeyDown}
+                />
+                <ActionIcon variant="filled" color="teal" size="input-sm" onClick={handleAdd}>
+                    <IconArrowBigRightLine stroke={1.5} size={36} />
+                </ActionIcon>
+            </Group>
+            <List size="lg" mt={16}>
                 {list.map((el) => (
                     <List.Item key={el}>{el}</List.Item>
                 ))}
             </List>
-            <Space h="md" />
-            <Button variant="filled" color="teal" fullWidth h="40" onClick={handleStart}>
+            <Button
+                variant="filled"
+                color="teal"
+                fullWidth
+                h="40"
+                mt={16}
+                onClick={handleStart}
+                disabled={isStartDisabled}
+                className={styles.button}
+            >
                 Начать игру
             </Button>
         </>

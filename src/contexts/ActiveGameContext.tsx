@@ -34,14 +34,21 @@ export const ActiveGameContextProvider = ({ children }: { children: ReactNode })
     };
 
     const nextMove = (roundPoints: number) => {
-        const [currentPlayer, nextPlayer] = activePair;
-        const player = players.find(({ name }) => name === currentPlayer);
+        const [currentPlayerName, nextPlayerName] = activePair;
+        const player = players.find(({ name }) => name === currentPlayerName);
         if (!player) return;
 
-        const rounds = { ...player.rounds, [roundsCount.toString()]: roundPoints };
-        const pair = getNextPair(nextPlayer, players);
+        const currentRoundsPoints = { ...player.rounds, [roundsCount.toString()]: roundPoints };
 
-        setPlayers([...players.filter(({ name }) => name !== currentPlayer), { ...player, rounds }]);
+        const newPlayers = players.map<Player>(({ name, rounds }) => {
+            if (name === currentPlayerName) {
+                return { name, rounds: currentRoundsPoints };
+            }
+            return { name, rounds: { ...rounds } };
+        });
+        setPlayers(newPlayers);
+
+        const pair = getNextPair(nextPlayerName, players);
         setActivePair(pair);
 
         //Если по кругу дошли до 1 игрока - увеличиваем раунд
