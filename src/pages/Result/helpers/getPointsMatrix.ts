@@ -1,12 +1,13 @@
 import { Player } from 'contexts/types';
+import { PointsMatrix } from '../types';
 
-type PointsMatrix = (number | string)[][];
+type InnerLine = PointsMatrix[0];
 
 export const getPointsMatrix = (players: Player[], roundsCount: number): PointsMatrix => {
     const matrix: PointsMatrix = [];
 
     for (let i = 1; i <= roundsCount; i++) {
-        const innerLine: (number | string)[] = [i];
+        const innerLine: InnerLine = [i];
         players.forEach(({ rounds }) => {
             const points = rounds[i.toString()] || '--';
             innerLine.push(points);
@@ -14,7 +15,7 @@ export const getPointsMatrix = (players: Player[], roundsCount: number): PointsM
         matrix.push(innerLine);
     }
 
-    const innerLine: (number | string)[] = ['Итого'];
+    const innerLine: InnerLine = ['Итого'];
     players.forEach(({ rounds }) => {
         const total = Object.values(rounds).reduce((acc, points) => acc + points, 0);
         innerLine.push(total);
