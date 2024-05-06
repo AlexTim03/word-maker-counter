@@ -24,7 +24,8 @@
       "components/*": ["components/*"],
       "contexts/*": ["contexts/*"],
       "pages/*": ["pages/*"],
-      "routing/*": ["routing/*"]
+      "routing/*": ["routing/*"],
+      "config": ["config"]
     }
   },
   "include": [

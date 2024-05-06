@@ -6,6 +6,7 @@ import { Error404 } from 'pages/Error404';
 import { NewGame } from 'pages/NewGame';
 import { ActiveGame } from 'pages/ActiveGame';
 import { SaveGame } from 'pages/SaveGame';
+import { RestoreGame } from 'pages/RestoreGame';
 import { Result } from 'pages/Result';
 
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
     {
         path: '/save',
         element: <AppShell routeComponent={<SaveGame />} />,
+    },
+    {
+        path: '/restore',
+        element: <AppShell routeComponent={<RestoreGame />} />,
     },
     {
         path: '/result',

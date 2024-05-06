@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { NavLink } from '@mantine/core';
-import { IconHome2, IconDeviceFloppy, IconCalculator } from '@tabler/icons-react';
+import { NavLink, Stack } from '@mantine/core';
+import { IconHome2, IconDeviceFloppy, IconCalculator, IconDatabaseImport } from '@tabler/icons-react';
 
 interface NavbarProps {
     toggle: () => void;
@@ -25,19 +25,29 @@ export const Navbar = ({ toggle }: NavbarProps) => {
         toggle();
     };
 
+    const restoreGame = () => {
+        navigate('/restore');
+        toggle();
+    };
+
     return (
-        <>
-            <NavLink label="Главное меню" leftSection={<IconHome2 size="1rem" stroke={1.5} />} onClick={goToMainMenu} />
+        <Stack gap="lg">
+            <NavLink label="Главное меню" leftSection={<IconHome2 size="2rem" stroke={1} />} onClick={goToMainMenu} />
             <NavLink
                 label="Подсчет очков"
-                leftSection={<IconCalculator size="1rem" stroke={1.5} />}
+                leftSection={<IconCalculator size="2rem" stroke={1} />}
                 onClick={findWinner}
             />
             <NavLink
                 label="Сохранить игру"
-                leftSection={<IconDeviceFloppy size="1rem" stroke={1.5} />}
+                leftSection={<IconDeviceFloppy size="2rem" stroke={1} />}
                 onClick={saveGame}
             />
-        </>
+            <NavLink
+                label="Восстановить игру"
+                leftSection={<IconDatabaseImport size="2rem" stroke={1} />}
+                onClick={restoreGame}
+            />
+        </Stack>
     );
 };
