@@ -7,6 +7,7 @@ module.exports = {
             components: path.resolve(__dirname, 'src/components'),
             pages: path.resolve(__dirname, 'src/pages'),
             routing: path.resolve(__dirname, 'src/routing'),
+            contexts: path.resolve(__dirname, 'src/contexts'),
             // shared: path.resolve(__dirname, 'src/shared'),
             // widgets: path.resolve(__dirname, 'src/widgets'),
             // features: path.resolve(__dirname, 'src/features'),

@@ -6,7 +6,7 @@ import { Point } from 'components/Point';
 import { getTotal } from './helpers/getTotal';
 
 export const ActiveGame = () => {
-    const { activePair, roundsCount, nextMove } = useActiveGameContext();
+    const { activePair, roundsCount, nextMove, addPointsToPlayer } = useActiveGameContext();
     const [currentPlayer, nextPlayer] = activePair;
     const [value, setValue] = useState<number | string>('');
     const [points, setPoints] = useState<number[]>([]);
@@ -20,6 +20,7 @@ export const ActiveGame = () => {
 
     const addPoints = () => {
         if (value && typeof value === 'number') {
+            addPointsToPlayer(value);
             setPoints([...points, value]);
             setValue('');
             inputRef.current?.focus();
@@ -27,7 +28,7 @@ export const ActiveGame = () => {
     };
 
     const handleNext = () => {
-        nextMove(getTotal(points));
+        nextMove();
         setPoints([]);
         setValue('');
         inputRef.current?.focus();

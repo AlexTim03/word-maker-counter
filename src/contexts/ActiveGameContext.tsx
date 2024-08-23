@@ -8,7 +8,8 @@ interface ActiveGameContextValue {
     activePair: Pair;
     roundsCount: number;
     startGame: (list: string[]) => void;
-    nextMove: (roundPoints: number) => void;
+    addPointsToPlayer: (roundPoints: number) => void;
+    nextMove: () => void;
 }
 
 const ActiveGameContext = createContext<ActiveGameContextValue>({} as ActiveGameContextValue);
@@ -33,21 +34,30 @@ export const ActiveGameContextProvider = ({ children }: { children: ReactNode })
         setRoundsCount(1);
     };
 
-    const nextMove = (roundPoints: number) => {
-        const [currentPlayerName, nextPlayerName] = activePair;
+    const addPointsToPlayer = (addingPoints: number) => {
+        const currentPlayerName = activePair[0];
         const player = players.find(({ name }) => name === currentPlayerName);
         if (!player) return;
 
-        const currentRoundsPoints = { ...player.rounds, [roundsCount.toString()]: roundPoints };
+        const round = roundsCount.toString();
+
+        const allRounds = { ...player.rounds };
+        if (!allRounds[round]) {
+            allRounds[round] = 0;
+        }
+        allRounds[round] = allRounds[round] + addingPoints;
 
         const newPlayers = players.map<Player>(({ name, rounds }) => {
             if (name === currentPlayerName) {
-                return { name, rounds: currentRoundsPoints };
+                return { name, rounds: allRounds };
             }
             return { name, rounds: { ...rounds } };
         });
         setPlayers(newPlayers);
+    };
 
+    const nextMove = () => {
+        const nextPlayerName = activePair[1];
         const pair = getNextPair(nextPlayerName, players);
         setActivePair(pair);
 
@@ -56,7 +66,9 @@ export const ActiveGameContextProvider = ({ children }: { children: ReactNode })
     };
 
     return (
-        <ActiveGameContext.Provider value={{ players, firstPlayer, activePair, roundsCount, startGame, nextMove }}>
+        <ActiveGameContext.Provider
+            value={{ players, firstPlayer, activePair, roundsCount, startGame, addPointsToPlayer, nextMove }}
+        >
             {children}
         </ActiveGameContext.Provider>
     );

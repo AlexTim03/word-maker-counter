@@ -17,6 +17,7 @@ const resolver: CSSVariablesResolver = () => ({
     },
     dark: {},
 });
+
 const App = () => (
     <MantineProvider theme={theme} cssVariablesResolver={resolver} defaultColorScheme="auto">
         <ActiveGameContextProvider>
