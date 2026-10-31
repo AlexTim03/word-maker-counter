@@ -6,6 +6,11 @@ import { getWinners } from './helpers/getWinners';
 
 export const Result = () => {
     const { players, roundsCount } = useActiveGameContext();
+
+    if (players.length === 0) {
+        return <Text>Нет данных для отображения результатов.</Text>;
+    }
+
     const matrix = getPointsMatrix(players, roundsCount);
     const winners = getWinners(players, matrix);
 
@@ -19,22 +24,26 @@ export const Result = () => {
             <Title order={3}>Результат игры</Title>
             <Table data={tableData} stickyHeader stickyHeaderOffset={60} striped withTableBorder withColumnBorders />
 
-            <Group m={10} gap="xs">
-                <Text fw={700} component="span" size="lg">
-                    Первое место:
-                </Text>
-                <Text component="span" size="lg">
-                    {winners.first.name}, {winners.first.points} оч.
-                </Text>
-            </Group>
-            <Group m={10} gap="xs">
-                <Text fw={700} component="span" size="lg">
-                    Второе место:
-                </Text>
-                <Text component="span" size="lg">
-                    {winners.second.name}, {winners.second.points} оч.
-                </Text>
-            </Group>
+            {winners.first && (
+                <Group m={10} gap="xs">
+                    <Text fw={700} component="span" size="lg">
+                        Первое место:
+                    </Text>
+                    <Text component="span" size="lg">
+                        {winners.first.name}, {winners.first.points} оч.
+                    </Text>
+                </Group>
+            )}
+            {winners.second && (
+                <Group m={10} gap="xs">
+                    <Text fw={700} component="span" size="lg">
+                        Второе место:
+                    </Text>
+                    <Text component="span" size="lg">
+                        {winners.second.name}, {winners.second.points} оч.
+                    </Text>
+                </Group>
+            )}
             {winners.third && (
                 <Group m={10} gap="xs">
                     <Text fw={700} component="span" size="lg">

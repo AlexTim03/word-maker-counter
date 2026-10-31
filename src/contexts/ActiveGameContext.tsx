@@ -1,18 +1,22 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 import { Player, Pair } from './types';
 import { getNextPair } from './helpers/getNextPair';
 
-interface ActiveGameContextValue {
+export interface ActiveGameState {
     players: Player[];
-    firstPlayer: string;
     activePair: Pair;
     roundsCount: number;
+}
+
+interface ActiveGameContextValue extends ActiveGameState {
+    firstPlayer: string;
     startGame: (list: string[]) => void;
+    restoreGame: (game: ActiveGameState) => void;
     addPointsToPlayer: (roundPoints: number) => void;
     nextMove: () => void;
 }
 
-const ActiveGameContext = createContext<ActiveGameContextValue>({} as ActiveGameContextValue);
+const ActiveGameContext = createContext<ActiveGameContextValue | undefined>(undefined);
 
 export const ActiveGameContextProvider = ({ children }: { children: ReactNode }) => {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -21,6 +25,8 @@ export const ActiveGameContextProvider = ({ children }: { children: ReactNode })
     const [roundsCount, setRoundsCount] = useState<number>(0);
 
     const startGame = (list: string[]) => {
+        if (list.length < 2) return;
+
         setPlayers(
             list.map(
                 (name): Player => ({
@@ -32,6 +38,13 @@ export const ActiveGameContextProvider = ({ children }: { children: ReactNode })
         setFirstPlayer(list[0]);
         setActivePair([list[0], list[1]]);
         setRoundsCount(1);
+    };
+
+    const restoreGame = (game: ActiveGameState) => {
+        setPlayers(game.players.map(({ name, rounds }) => ({ name, rounds: { ...rounds } })));
+        setFirstPlayer(game.players[0]?.name ?? '');
+        setActivePair([...game.activePair]);
+        setRoundsCount(game.roundsCount);
     };
 
     const addPointsToPlayer = (addingPoints: number) => {
@@ -57,21 +70,31 @@ export const ActiveGameContextProvider = ({ children }: { children: ReactNode })
     };
 
     const nextMove = () => {
+        if (players.length < 2) return;
+
         const nextPlayerName = activePair[1];
         const pair = getNextPair(nextPlayerName, players);
         setActivePair(pair);
 
         //Если по кругу дошли до 1 игрока - увеличиваем раунд
-        pair[0] === firstPlayer && setRoundsCount(roundsCount + 1);
+        if (pair[0] === firstPlayer) {
+            setRoundsCount(roundsCount + 1);
+        }
     };
 
     return (
         <ActiveGameContext.Provider
-            value={{ players, firstPlayer, activePair, roundsCount, startGame, addPointsToPlayer, nextMove }}
+            value={{ players, firstPlayer, activePair, roundsCount, startGame, restoreGame, addPointsToPlayer, nextMove }}
         >
             {children}
         </ActiveGameContext.Provider>
     );
 };
 
-export const useActiveGameContext = () => useContext<ActiveGameContextValue>(ActiveGameContext);
+export const useActiveGameContext = (): ActiveGameContextValue => {
+    const context = useContext(ActiveGameContext);
+    if (!context) {
+        throw new Error('useActiveGameContext must be used within ActiveGameContextProvider');
+    }
+    return context;
+};

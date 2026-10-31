@@ -1,24 +1,28 @@
 # Word maker (counter)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Приложение для подсчёта очков в игре «Составь слово».
 
-## Available Scripts
+## Доступные команды
 
-In the project directory, you can run:
+В каталоге проекта можно выполнить:
 
-### `npm start`
+### `npm run dev`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
+Запускает приложение в режиме разработки.\
+Откройте [http://localhost:5173](http://localhost:5173) в браузере.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Однократно запускает тесты через Vitest.
+
+### `npm run test:watch`
+
+Запускает Vitest в интерактивном режиме.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Проверяет TypeScript и создаёт production-сборку в каталоге `build`.
 
+### `npm run preview`
+
+Локально обслуживает собранную production-версию.

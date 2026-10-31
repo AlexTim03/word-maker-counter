@@ -9,7 +9,7 @@ export const getPointsMatrix = (players: Player[], roundsCount: number): PointsM
     for (let i = 1; i <= roundsCount; i++) {
         const innerLine: InnerLine = [i];
         players.forEach(({ rounds }) => {
-            const points = rounds[i.toString()] || '--';
+            const points = rounds[i.toString()] ?? '--';
             innerLine.push(points);
         });
         matrix.push(innerLine);

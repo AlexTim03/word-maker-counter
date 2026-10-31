@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { NavLink, Stack } from '@mantine/core';
 import { IconHome2, IconDeviceFloppy, IconCalculator, IconDatabaseImport } from '@tabler/icons-react';
 

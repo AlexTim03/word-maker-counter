@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouteError } from 'react-router-dom';
+import { useRouteError } from 'react-router';
 
 interface RouteError {
     data?: string;
@@ -9,16 +9,18 @@ interface RouteError {
 
 export const Error404 = () => {
     const error = useRouteError();
-    console.error(error);
-    const castError = error as RouteError;
+    if (error) console.error(error);
+    const castError = (error ?? {}) as RouteError;
 
     return (
         <>
             <h1>Ой!</h1>
-            <p>Необрабатываемая ошибка роутинга:</p>
-            <p>
-                <i>{castError.data || castError.statusText || castError.message}</i>
-            </p>
+            <p>Страница не найдена или произошла ошибка маршрутизации.</p>
+            {(castError.data || castError.statusText || castError.message) && (
+                <p>
+                    <i>{castError.data || castError.statusText || castError.message}</i>
+                </p>
+            )}
         </>
     );
 };

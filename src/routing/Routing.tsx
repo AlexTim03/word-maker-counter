@@ -1,5 +1,6 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 import { AppShell } from 'components/AppShell';
 import { MainMenu } from 'pages/MainMenu';
 import { Error404 } from 'pages/Error404';
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     {
         path: '/result',
         element: <AppShell routeComponent={<Result />} />,
+    },
+    {
+        path: '*',
+        element: <AppShell routeComponent={<Error404 />} />,
     },
 ]);
 

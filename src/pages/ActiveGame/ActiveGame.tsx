@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button, NumberInput, ActionIcon, Group } from '@mantine/core';
+import { Alert, Button, NumberInput, ActionIcon, Group } from '@mantine/core';
 import { IconArrowBigRightLine } from '@tabler/icons-react';
 import { useActiveGameContext } from 'contexts/ActiveGameContext';
 import { Point } from 'components/Point';
 import { getTotal } from './helpers/getTotal';
 
 export const ActiveGame = () => {
-    const { activePair, roundsCount, nextMove, addPointsToPlayer } = useActiveGameContext();
+    const { players, activePair, roundsCount, nextMove, addPointsToPlayer } = useActiveGameContext();
     const [currentPlayer, nextPlayer] = activePair;
     const [value, setValue] = useState<number | string>('');
     const [points, setPoints] = useState<number[]>([]);
@@ -19,7 +19,7 @@ export const ActiveGame = () => {
     }, []);
 
     const addPoints = () => {
-        if (value && typeof value === 'number') {
+        if (value !== '' && typeof value === 'number') {
             addPointsToPlayer(value);
             setPoints([...points, value]);
             setValue('');
@@ -33,6 +33,10 @@ export const ActiveGame = () => {
         setValue('');
         inputRef.current?.focus();
     };
+
+    if (players.length === 0) {
+        return <Alert color="yellow">Нет активной игры.</Alert>;
+    }
 
     return (
         <div>
@@ -51,7 +55,7 @@ export const ActiveGame = () => {
                     allowNegative={false}
                     hideControls
                 />
-                <ActionIcon variant="filled" color="teal" size="input-sm" onClick={addPoints}>
+                <ActionIcon aria-label="Добавить очки" variant="filled" color="teal" size="input-sm" onClick={addPoints}>
                     <IconArrowBigRightLine stroke={1.5} size={36} />
                 </ActionIcon>
             </Group>

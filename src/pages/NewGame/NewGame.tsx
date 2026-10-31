@@ -19,7 +19,7 @@ export const NewGame = () => {
                     onChange={handleChangeValue}
                     onKeyDown={handleKeyDown}
                 />
-                <ActionIcon variant="filled" color="teal" size="input-sm" onClick={handleAdd}>
+                <ActionIcon aria-label="Добавить игрока" variant="filled" color="teal" size="input-sm" onClick={handleAdd}>
                     <IconArrowBigRightLine stroke={1.5} size={36} />
                 </ActionIcon>
             </Group>

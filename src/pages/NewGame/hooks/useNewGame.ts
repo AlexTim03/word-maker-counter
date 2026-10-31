@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, KeyboardEvent, ChangeEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useActiveGameContext } from 'contexts/ActiveGameContext';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -17,19 +17,20 @@ export const useNewGame = () => {
     }, []);
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
-        if (e.key === 'Enter' && value) {
+        if (e.key === 'Enter' && value.trim()) {
             addPlayer();
         }
     };
 
     const handleAdd = (): void => {
-        if (value) {
+        if (value.trim()) {
             addPlayer();
         }
     };
 
     const addPlayer = (): void => {
         const trimValue = value.trim();
+        if (!trimValue) return;
         if (list.find((el) => el === trimValue)) {
             alert('Неуникальное имя!');
             return;
