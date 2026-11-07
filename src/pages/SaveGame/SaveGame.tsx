@@ -29,7 +29,10 @@ export const SaveGame = () => {
         };
 
         try {
-            if (localStorage.getItem(key) && !window.confirm('Сохранение с таким именем уже существует. Перезаписать?')) {
+            if (
+                localStorage.getItem(key) &&
+                !window.confirm('Сохранение с таким именем уже существует. Перезаписать?')
+            ) {
                 return;
             }
             localStorage.setItem(key, JSON.stringify(json));

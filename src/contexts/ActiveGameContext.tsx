@@ -28,12 +28,10 @@ export const ActiveGameContextProvider = ({ children }: { children: ReactNode })
         if (list.length < 2) return;
 
         setPlayers(
-            list.map(
-                (name): Player => ({
-                    name,
-                    rounds: {},
-                })
-            )
+            list.map((name): Player => ({
+                name,
+                rounds: {},
+            }))
         );
         setFirstPlayer(list[0]);
         setActivePair([list[0], list[1]]);
@@ -84,7 +82,16 @@ export const ActiveGameContextProvider = ({ children }: { children: ReactNode })
 
     return (
         <ActiveGameContext.Provider
-            value={{ players, firstPlayer, activePair, roundsCount, startGame, restoreGame, addPointsToPlayer, nextMove }}
+            value={{
+                players,
+                firstPlayer,
+                activePair,
+                roundsCount,
+                startGame,
+                restoreGame,
+                addPointsToPlayer,
+                nextMove,
+            }}
         >
             {children}
         </ActiveGameContext.Provider>

@@ -55,7 +55,13 @@ export const ActiveGame = () => {
                     allowNegative={false}
                     hideControls
                 />
-                <ActionIcon aria-label="Добавить очки" variant="filled" color="teal" size="input-sm" onClick={addPoints}>
+                <ActionIcon
+                    aria-label="Добавить очки"
+                    variant="filled"
+                    color="teal"
+                    size="input-sm"
+                    onClick={addPoints}
+                >
                     <IconArrowBigRightLine stroke={1.5} size={36} />
                 </ActionIcon>
             </Group>

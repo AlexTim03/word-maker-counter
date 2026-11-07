@@ -8,7 +8,11 @@ import { NewGame } from './NewGame';
 
 const GameProbe = () => {
     const { players, activePair, roundsCount } = useActiveGameContext();
-    return <div data-testid="game-state">{[players.map(({ name }) => name).join(','), activePair.join('|'), roundsCount].join(' / ')}</div>;
+    return (
+        <div data-testid="game-state">
+            {[players.map(({ name }) => name).join(','), activePair.join('|'), roundsCount].join(' / ')}
+        </div>
+    );
 };
 
 const renderNewGame = () =>
